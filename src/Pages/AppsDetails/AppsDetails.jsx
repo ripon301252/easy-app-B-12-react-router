@@ -35,6 +35,22 @@ const AppsDetails = () => {
     // console.log(apps)
     const { image, description, ratingAvg, downloads, reviews, companyName, size, ratings } = appsData || {}
 
+    // localStorage
+    const handleAddInstall = () => {
+        const existingInstall = JSON.parse(localStorage.getItem('installation'))
+        let updateInstall = []
+        if(existingInstall){
+            const isDuplicate = existingInstall.some(a => a.id === appsData.id)
+            if(isDuplicate) return alert('sorry vai')
+                updateInstall = [...existingInstall, appsData]
+        }
+        else{
+            updateInstall.push(appsData)
+        }
+        localStorage.setItem('installation', JSON.stringify(updateInstall))
+    }
+
+
     if (loading) return <p>Loading....</p>
 
     // generate chart data
@@ -72,13 +88,12 @@ const AppsDetails = () => {
                                 <p className='text-2xl text-[#733ce7]'><BiLike /></p>
                                 <p className='text-xs text-gray-400'>Total Reviews</p>
                                 <p className='text-2xl text-[#001931] font-bold'>{reviews}K</p>
-
                             </div>
                         </div>
                         <div className='md:text-left text-center'>
                             <button
                                 className='btn bg-[#00d390] text-white'
-                                onClick={() => setInstall(!install)}  >
+                                onClick={() => setInstall(!install), handleAddInstall}  >
                                 {install
                                     ? `Installed`   
                                     : `Install Now (${size} MB)` 
