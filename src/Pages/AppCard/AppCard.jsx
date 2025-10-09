@@ -24,7 +24,7 @@ const AppCard = ({ app }) => {
                 <figure className="px-3 pt-3">
                     <img
                         src={image}
-                        alt="Shoes"
+                        alt={image}
                         className="rounded-xl md:w-68 w-72 h-52" />
                 </figure>
                 <div className="card-body items-center text-center">

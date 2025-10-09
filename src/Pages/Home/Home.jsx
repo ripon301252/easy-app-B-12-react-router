@@ -12,7 +12,7 @@ const Home = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoadingDelay(false);
-        }, 300); // 1.5 seconds delay
+        }, 100); 
 
         return () => clearTimeout(timer);
     }, []);

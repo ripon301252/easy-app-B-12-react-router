@@ -22,7 +22,7 @@ const Installation = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoadingDelay(false);
-        }, 300);
+        }, 100);
 
         return () => clearTimeout(timer);
     }, []);

@@ -15,7 +15,7 @@ const Apps = () => {
 
     // Initial page load delay
     useEffect(() => {
-        const timer = setTimeout(() => setLoadingDelay(false), 300)
+        const timer = setTimeout(() => setLoadingDelay(false), 100)
         return () => clearTimeout(timer)
     }, [])
 
