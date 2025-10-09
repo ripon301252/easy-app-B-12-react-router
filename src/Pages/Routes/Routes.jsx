@@ -5,16 +5,19 @@ import Apps from "../Apps/Apps";
 import Installation from "../Installation/Installation";
 import AppsDetails from "../AppsDetails/AppsDetails";
 import Error from "../Error/Error";
+import Error2 from "../Error/Error2";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         Component: MainLayouts,
+        errorElement: <Error2></Error2>,
+        hydrateFallbackElement: <p>Loading...</p>,
         children: [
             {
                 path: '/',
                 Component: Home,
-                
+
             },
             {
                 path: '/apps',

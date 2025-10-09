@@ -4,7 +4,7 @@ import { FiDownload } from "react-icons/fi";
 import { IoMdStar } from "react-icons/io";
 import { useApps } from '../../Hooks/useApps';
 import { BiLike } from "react-icons/bi";
-import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import appNotImg from '../../assets/App-Error.png'
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { toast } from 'react-toastify';
@@ -26,14 +26,25 @@ const AppsDetails = () => {
         }
     }, [id]);
 
-    const appsData = apps.find(a => (a.id) === Number(id))
-    // console.log(appsData)
+    // Error
+    if (error) {
+        return (
+            <div className="flex flex-col items-center justify-center pt-10">
+                <h1 className="text-3xl font-bold mb-3">Something went wrong!</h1>
+                <p className="text-gray-500 mb-5">{error.message || 'Failed to fetch app data.'}</p>
+                <a href="/apps" className="btn btn-primary">Back to Apps</a>
+            </div>
+        );
+    }
 
+    const appsData = apps.find(a => (a.id) === Number(id))
+
+    // error
     if (!appsData) {
         return (
-            <div className="flex flex-col items-center justify-center h-[60vh]">
+            <div className="flex flex-col items-center justify-center pt-10">
                 <img src={appNotImg} alt={appNotImg} className='w-[200px]' />
-                <h1 className="text-3xl font-bold mb-3">App is Not Found</h1>
+                <h1 className="text-3xl font-bold my-3">App is Not Found</h1>
                 <p className="text-gray-500 mb-5">
                     The app with ID {id} does not exist.
                 </p>
@@ -42,13 +53,12 @@ const AppsDetails = () => {
         );
     }
 
-
     const { image, description, title, ratingAvg, downloads, reviews, companyName, size, ratings } = appsData || {}
 
     // localStorage
     const handleAddInstall = () => {
         const existingInstall = JSON.parse(localStorage.getItem('installation')) || []
-        let updateInstall = []
+        let updatedInstall = []
         if (existingInstall) {
             const isDuplicate = existingInstall.some(a => a.id === appsData.id)
 
@@ -58,12 +68,12 @@ const AppsDetails = () => {
                     App is Already installed!
                 </span>
             );
-            updateInstall = [...existingInstall, appsData]
+            updatedInstall = [...existingInstall, appsData]
         }
         else {
-            updateInstall.push(appsData)
+            updatedInstall.push(appsData)
         }
-        localStorage.setItem('installation', JSON.stringify(updateInstall))
+        localStorage.setItem('installation', JSON.stringify(updatedInstall))
 
         toast(
             <span className="flex items-center gap-2">
@@ -73,6 +83,7 @@ const AppsDetails = () => {
         );
     }
 
+    // loading
     if (loading) {
         return (
             <div className="flex justify-center items-center h-[80vh]">
@@ -86,10 +97,6 @@ const AppsDetails = () => {
         ? [...ratings].sort((a, b) => parseInt(b.name) - parseInt(a.name))
         : [];
 
-
-
-
-
     return (
         <div className='container mx-auto'>
             <div className='mt-10 '>
@@ -98,11 +105,13 @@ const AppsDetails = () => {
                         <img
                             src={image}
                             alt="Shoes"
-                            className="rounded-xl w-68 h-52" />
+                            className="rounded-xl w-72 h-52" />
                     </figure>
-                    <div className=" items-center w-full">
-                        <h2 className=" md:text-2xl font-semibold">{title}</h2>
-                        <p className='font-semibold text-sm mt-2 mb-3'><span className='text-gray-400'>Developed by :</span> <span className='text-[#723be7]'>{companyName}</span></p>
+                    <div className=" items-center  w-full">
+
+                        <h2 className=" md:text-2xl font-semibold md:text-left text-center">{title}</h2>
+                        <p className='font-semibold text-sm mt-2 mb-3 md:text-left text-center'><span className='text-gray-400'>Developed by :</span> <span className='text-[#723be7]'>{companyName}</span></p>
+
                         <hr className='text-gray-300 w-full' />
 
                         <div className="flex w-full items-center md:gap-10 gap-6 mt-3 mb-3">
@@ -140,26 +149,27 @@ const AppsDetails = () => {
 
             <div className=''>
                 <h1 className='ml-4 font-bold'>Ratings</h1>
-                <BarChart width={1300} height={250} data={sortedRatings}        // sorted array
-                    layout="vertical"           // horizontal bars
-                    margin={{ top: 20, right: 30, left: 0, bottom: 20 }} >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type="number" />                 {/* বারের দৈর্ঘ্য */}
-                    <YAxis type="category" dataKey="name" /> {/* 5 star উপরে, 1 star নিচে */}
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="count" fill="#ff8811" />
-                </BarChart>
+                <div className="w-full overflow-x-auto wrapper">
+                    <ResponsiveContainer width="100%" height={250}>
+                        <BarChart data={sortedRatings} layout="vertical" margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" />
+                            <YAxis type="category" dataKey="name" />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="count" fill="#ff8811" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
             </div>
+
             <hr className='my-10 container mx-auto text-gray-300' />
-            <div>
+
+            <div className='md:mx-0 mx-3'>
                 <h1 className='font-bold'>Description</h1>
-                {description}
+                <p className='md:text-sm text-xs'>{description}</p>
             </div>
         </div>
-
-
-
     );
 };
 

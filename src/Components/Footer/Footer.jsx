@@ -29,8 +29,6 @@ const Footer = () => {
                         </div>
                     </div>
 
-
-
                     <div className="mb-7 md:ml-0 mx-5 ">
                         <h3 className='text-2xl mb-1'>Useful Links</h3>
                         <ul>
@@ -39,20 +37,18 @@ const Footer = () => {
                             <li>Contact Us</li>
                             <li>Join Us</li>
                             <li>Foundation</li>
-                            
+
                         </ul>
                     </div>
 
                     <div id="contact" className="md:ml-0 mx-5">
                         <h3 className="">Drop a Message</h3>
                         <input className="my-3 py-2 px-4 rounded-md outline-1" type="text" placeholder="Inter Your Email" />
-                            <div>
-                                <button className="btn hover:bg-[#0e7a81] bg-gradient-to-l from-[#5633e4] to-[#8755ea] "><span className=" text-white">Subscribe</span>
-                                </button>
-                            </div>
+                        <div>
+                            <button className="btn hover:bg-[#0e7a81] bg-gradient-to-l from-[#5633e4] to-[#8755ea] "><span className=" text-white">Subscribe</span>
+                            </button>
+                        </div>
                     </div>
-
-
 
                 </div>
             </footer>

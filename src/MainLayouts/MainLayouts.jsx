@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import { Outlet } from 'react-router';
 
 const MainLayouts = () => {
+    //  throw new Error("Test error");
     return (
         <div>
             <Navbar></Navbar>

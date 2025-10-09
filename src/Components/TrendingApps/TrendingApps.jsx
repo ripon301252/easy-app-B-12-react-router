@@ -1,29 +1,39 @@
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 import { useApps } from '../../Hooks/useApps';
 import AppCard from '../../Pages/AppCard/AppCard';
 import { NavLink } from 'react-router';
 
 const TrendingApps = () => {
 
-    const { apps, loading, error } = useApps()
-    const [loadingDelay, setLoadingDelay] = useState(true)
-    // console.log(apps)
+    const { apps, /*loading,*/ error } = useApps()
+    // const [loadingDelay, setLoadingDelay] = useState(true)
+   
 
-    useEffect(() => {
-        const timer = setTimeout(() => setLoadingDelay(false), 1500)
-        return () => clearTimeout(timer)
+    // useEffect(() => {
+    //     const timer = setTimeout(() => setLoadingDelay(false), 500)
+    //     return () => clearTimeout(timer)
 
-    }, [])
-    
-    const isLoading = loading || loadingDelay
+    // }, [])
 
-    if (isLoading) {
+    // Error
+    if (error) {
         return (
-            <div className="flex justify-center items-center h-[80vh]">
-                <span className="loading loading-bars loading-xl"></span>
+            <div className="flex flex-col items-center justify-center pt-10">
+                <h1 className="text-3xl font-bold mb-3">Something went wrong!</h1>
+                <p className="text-gray-500 mb-5">{error.message || 'Failed to fetch app data.'}</p>
+                <a href="/apps" className="btn btn-primary">Back to Apps</a>
             </div>
         );
     }
+    
+    // const isLoading = loading || loadingDelay
+    // if (isLoading) {
+    //     return (
+    //         <div className="flex justify-center items-center h-[80vh]">
+    //             <span className="loading loading-bars loading-xl"></span>
+    //         </div>
+    //     );
+    // }
 
     const featuredApps = apps.slice(0, 8)
 

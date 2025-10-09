@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 
 const AppCard = ({ app }) => {
-    console.log(app)
 
     const { image, title, ratingAvg, downloads, id } = app
 
@@ -22,11 +21,11 @@ const AppCard = ({ app }) => {
     return (
         <Link onClick={handleAlert} to={`/appDetails/${id}`}>
             <div className="card bg-base-100 shadow-sm hover:scale-102 transition ease-in-out">
-                <figure className="px-5 pt-5">
+                <figure className="px-3 pt-3">
                     <img
                         src={image}
                         alt="Shoes"
-                        className="rounded-xl w-68 h-52" />
+                        className="rounded-xl md:w-68 w-72 h-52" />
                 </figure>
                 <div className="card-body items-center text-center">
                     <h2 className="card-title text-xs">{title}</h2>

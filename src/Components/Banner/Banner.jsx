@@ -16,7 +16,7 @@ const Banner = () => {
                 <img className='mx-auto md:w-[700px] w-[500px] md:px-0 px-2' src={ImgBanner} alt={ImgBanner} />
             </div>
             <div className='bg-gradient-to-r from-[#5633e4] to-[#8755ea] md:py-12 py-6'>
-                <h1 className='text-center md:text-5xl text-3xl font-bold text-white'>Trusted by Millions, Built for You</h1>     
+                <h1 className='text-center md:text-5xl text-3xl font-bold text-white'>Trusted by Millions, Built for You</h1>
                 <div className='flex justify-evenly md:flex-row flex-col items-center md:mt-10 mt-5'>
                     <div className='text-center'>
                         <p className='text-sm text-gray-400 '>Total Downloads</p>

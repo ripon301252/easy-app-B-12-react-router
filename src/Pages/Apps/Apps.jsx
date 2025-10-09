@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApps } from '../../Hooks/useApps';
 import AppAllCard from '../AppAllCard/AppAllCard';
 import { IoSearch } from "react-icons/io5";
@@ -12,30 +12,37 @@ const Apps = () => {
 
     const term = search.trim().toLocaleLowerCase()
     const searchedApps = term ? apps.filter(app => app.companyName.toLocaleLowerCase().includes(term)) : apps
-    // console.log(searchedApps)
 
     // Initial page load delay
-    useEffect(()=> {
-        const timer = setTimeout(()=>setLoadingDelay(false), 1000)
-        return()=> clearTimeout(timer)
-
-    },[])
+    useEffect(() => {
+        const timer = setTimeout(() => setLoadingDelay(false), 300)
+        return () => clearTimeout(timer)
+    }, [])
 
     // Search loading effect
-    useEffect(() =>{
-        if(!term){
+    useEffect(() => {
+        if (!term) {
             setSearchLoading(false)
             return;
         }
 
         setSearchLoading(true)
-        const timer = setTimeout(() => setSearchLoading(false), 500)
+        const timer = setTimeout(() => setSearchLoading(false), 300)
         return () => clearTimeout(timer);
-    },[term])
+    }, [term])
 
+    // Error
+    if (error) {
+        return (
+            <div className="flex flex-col items-center justify-center pt-10">
+                <h1 className="text-3xl font-bold mb-3">Something went wrong!</h1>
+                <p className="text-gray-500 mb-5">{error.message || 'Failed to fetch app data.'}</p>
+                <a href="/apps" className="btn btn-primary">Back to Apps</a>
+            </div>
+        );
+    }
 
     const isLoading = loading || loadingDelay
-    const isSearchLoading = searchLoading
 
     if (isLoading) {
         return (
@@ -56,24 +63,24 @@ const Apps = () => {
                 </div>
                 <label className='input mt-5 mb-3'>
                     <IoSearch className='text-gray-400 text-xl' />
-                    <input value={search} onChange={(e) => setSearch(e.target.value)} type="search"   placeholder=" Search Product" className='-ml-2' />
+                    <input value={search} onChange={(e) => setSearch(e.target.value)} type="search" placeholder=" Search Product" className='-ml-2' />
                 </label>
             </div>
-            { isSearchLoading ? (
+            {searchLoading ? (
                 <div className="flex justify-center items-center h-40">
-                    <span className="loading loading-spinner loading-lg"></span>
+                    <span className="loading loading-infinity loading-xl"></span>
                 </div>
             ) :
-            searchedApps.length === 0 ? (
-                <p className='flex flex-col items-center justify-center text-5xl font-bold py-32'>No Apps Found</p>
-            ) : (
+                searchedApps.length === 0 ? (
+                    <p className='flex flex-col items-center justify-center md:text-5xl text-xl font-bold md:py-32 py-10'>No Apps Found</p>
+                ) : (
 
-                <div className='grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-5 md:px-10'>
-                    {
-                        searchedApps.map(app => <AppAllCard key={app.id} app={app}></AppAllCard>)
-                    }
-                </div>
-            )
+                    <div className='grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-5 md:px-10'>
+                        {
+                            searchedApps.map(app => <AppAllCard key={app.id} app={app}></AppAllCard>)
+                        }
+                    </div>
+                )
             }
 
         </div>
