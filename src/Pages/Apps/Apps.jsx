@@ -1,6 +1,7 @@
 import React, {  useEffect, useState } from 'react';
 import { useApps } from '../../Hooks/useApps';
 import AppAllCard from '../AppAllCard/AppAllCard';
+import { IoSearch } from "react-icons/io5";
 
 const Apps = () => {
     const { apps, loading, error } = useApps()
@@ -54,7 +55,8 @@ const Apps = () => {
                     <h3 className='text-xl font-semibold'>Apps Found</h3>
                 </div>
                 <label className='input mt-5 mb-3'>
-                    <input value={search} onChange={(e) => setSearch(e.target.value)} type="search" placeholder="Search Product" />
+                    <IoSearch className='text-gray-400 text-xl' />
+                    <input value={search} onChange={(e) => setSearch(e.target.value)} type="search"   placeholder=" Search Product" className='-ml-2' />
                 </label>
             </div>
             { isSearchLoading ? (

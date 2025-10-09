@@ -100,10 +100,10 @@ const AppsDetails = () => {
                             alt="Shoes"
                             className="rounded-xl w-68 h-52" />
                     </figure>
-                    <div className=" items-center">
+                    <div className=" items-center w-full">
                         <h2 className=" md:text-2xl font-semibold">{title}</h2>
                         <p className='font-semibold text-sm mt-2 mb-3'><span className='text-gray-400'>Developed by :</span> <span className='text-[#723be7]'>{companyName}</span></p>
-                        <hr className='text-gray-300' />
+                        <hr className='text-gray-300 w-full' />
 
                         <div className="flex w-full items-center md:gap-10 gap-6 mt-3 mb-3">
                             <div className=" flex flex-col items-center   ">
