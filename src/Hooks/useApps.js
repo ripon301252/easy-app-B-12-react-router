@@ -9,7 +9,7 @@ export const useApps = () => {
 
     useEffect(()=>{
         setLoading(true)
-        axios('../../easy.json')
+        axios('/easy.json')
             .then(api => setApps(api.data))
             .catch(err => setError(err))
             .finally(() => setLoading(false))
