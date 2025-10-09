@@ -3,6 +3,7 @@ import { FiDownload } from "react-icons/fi";
 import { IoMdStar } from "react-icons/io";
 import { Link } from 'react-router';
 import { toast } from 'react-toastify';
+import { IoCheckmarkCircleOutline } from "react-icons/io5";
 
 const AppCard = ({ app }) => {
     console.log(app)
@@ -10,7 +11,12 @@ const AppCard = ({ app }) => {
     const { image, title, ratingAvg, downloads, id } = app
 
     const handleAlert = () => {
-        toast('App is Added Details Page')
+        toast(
+            <span className="flex items-center gap-2">
+                <IoCheckmarkCircleOutline className="text-green-500 text-xl" />
+                App is Added Details Page!
+            </span>
+        );
     }
 
     return (

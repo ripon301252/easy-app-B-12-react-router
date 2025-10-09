@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FiDownload } from "react-icons/fi";
 import { IoMdStar } from "react-icons/io";
 import { toast } from 'react-toastify';
-
+import { IoCheckmarkCircleOutline } from "react-icons/io5";
 
 const Installation = () => {
 
@@ -17,7 +17,7 @@ const Installation = () => {
 
 
     // Sort
-     const sortedItem = (() => {
+    const sortedItem = (() => {
         if (sortOrder === 'size-asc') {
             return [...install].sort((a, b) => a.size - b.size)
         }
@@ -38,7 +38,12 @@ const Installation = () => {
 
         localStorage.setItem('installation', JSON.stringify(updatedInstall))
 
-        toast("App uninstalled successfully");
+        toast(
+            <span className="flex items-center gap-2">
+                <IoCheckmarkCircleOutline className="text-green-500 text-xl" />
+                App Uninstalled successfully!
+            </span>
+        );
     }
 
 
@@ -48,7 +53,7 @@ const Installation = () => {
             <h1 className='text-center md:text-4xl text-2xl font-semibold md:pt-10 pt-5'>Your Installed Apps</h1>
             <p className='text-center text-sm text-gray-400 my-5 mx-2'>Explore All Trending Apps on the Market developed by us</p>
             <div className='flex justify-between items-center md:mx-0 mx-2'>
-                <h2 className='text-xl font-bold'>{sortedItem .length} Apps Found</h2>
+                <h2 className='text-xl font-bold'>{sortedItem.length} Apps Found</h2>
                 <select value={sortOrder} onChange={e => setSortOrder(e.target.value)} className='btn select w-32'>
                     <option value={"none"}>Sort By Size</option>
                     <option value={'size-asc'}>Low-&gt;High</option>

@@ -6,6 +6,7 @@ import { useApps } from '../../Hooks/useApps';
 import { BiLike } from "react-icons/bi";
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
 import appNotImg from '../../assets/App-Error.png'
+import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { toast } from 'react-toastify';
 
 
@@ -17,7 +18,7 @@ const AppsDetails = () => {
     const [install, setInstall] = useState(false)
 
     // for disable mood
-     useEffect(() => {
+    useEffect(() => {
         const existingInstall = JSON.parse(localStorage.getItem('installation')) || [];
         const alreadyInstalled = existingInstall.some(a => a.id === Number(id));
         if (alreadyInstalled) {
@@ -41,7 +42,7 @@ const AppsDetails = () => {
         );
     }
 
-    
+
     const { image, description, title, ratingAvg, downloads, reviews, companyName, size, ratings } = appsData || {}
 
     // localStorage
@@ -51,7 +52,12 @@ const AppsDetails = () => {
         if (existingInstall) {
             const isDuplicate = existingInstall.some(a => a.id === appsData.id)
 
-            if (isDuplicate) return toast('sorry vai')
+            if (isDuplicate) return toast(
+                <span className="flex items-center gap-2">
+                    <IoCheckmarkCircleOutline className="text-green-500 text-xl" />
+                    App is Already installed!
+                </span>
+            );
             updateInstall = [...existingInstall, appsData]
         }
         else {
@@ -59,11 +65,13 @@ const AppsDetails = () => {
         }
         localStorage.setItem('installation', JSON.stringify(updateInstall))
 
-        toast('App install successfully')
+        toast(
+            <span className="flex items-center gap-2">
+                <IoCheckmarkCircleOutline className="text-green-500 text-xl" />
+                App install successfully!
+            </span>
+        );
     }
-
-   
-
 
     if (loading) {
         return (
@@ -80,7 +88,7 @@ const AppsDetails = () => {
 
 
 
-        
+
 
     return (
         <div className='container mx-auto'>

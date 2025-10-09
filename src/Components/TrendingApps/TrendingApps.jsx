@@ -14,6 +14,7 @@ const TrendingApps = () => {
         return () => clearTimeout(timer)
 
     }, [])
+    
     const isLoading = loading || loadingDelay
 
     if (isLoading) {
