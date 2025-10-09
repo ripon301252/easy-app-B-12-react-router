@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { FiDownload } from "react-icons/fi";
 import { IoMdStar } from "react-icons/io";
@@ -6,6 +6,7 @@ import { useApps } from '../../Hooks/useApps';
 import { BiLike } from "react-icons/bi";
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
 import appNotImg from '../../assets/App-Error.png'
+import { toast } from 'react-toastify';
 
 
 const AppsDetails = () => {
@@ -15,6 +16,14 @@ const AppsDetails = () => {
 
     const [install, setInstall] = useState(false)
 
+    // for disable mood
+     useEffect(() => {
+        const existingInstall = JSON.parse(localStorage.getItem('installation')) || [];
+        const alreadyInstalled = existingInstall.some(a => a.id === Number(id));
+        if (alreadyInstalled) {
+            setInstall(true);
+        }
+    }, [id]);
 
     const appsData = apps.find(a => (a.id) === Number(id))
     // console.log(appsData)
@@ -32,31 +41,46 @@ const AppsDetails = () => {
         );
     }
 
-    // console.log(apps)
-    const { image, description, ratingAvg, downloads, reviews, companyName, size, ratings } = appsData || {}
+    
+    const { image, description, title, ratingAvg, downloads, reviews, companyName, size, ratings } = appsData || {}
 
     // localStorage
     const handleAddInstall = () => {
-        const existingInstall = JSON.parse(localStorage.getItem('installation'))
+        const existingInstall = JSON.parse(localStorage.getItem('installation')) || []
         let updateInstall = []
-        if(existingInstall){
+        if (existingInstall) {
             const isDuplicate = existingInstall.some(a => a.id === appsData.id)
-            if(isDuplicate) return alert('sorry vai')
-                updateInstall = [...existingInstall, appsData]
+
+            if (isDuplicate) return toast('sorry vai')
+            updateInstall = [...existingInstall, appsData]
         }
-        else{
+        else {
             updateInstall.push(appsData)
         }
         localStorage.setItem('installation', JSON.stringify(updateInstall))
+
+        toast('App install successfully')
     }
 
+   
 
-    if (loading) return <p>Loading....</p>
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-[80vh]">
+                <span className="loading loading-bars loading-xl"></span>
+            </div>
+        );
+    }
 
     // generate chart data
     const sortedRatings = ratings
         ? [...ratings].sort((a, b) => parseInt(b.name) - parseInt(a.name))
         : [];
+
+
+
+        
 
     return (
         <div className='container mx-auto'>
@@ -69,7 +93,7 @@ const AppsDetails = () => {
                             className="rounded-xl w-68 h-52" />
                     </figure>
                     <div className=" items-center">
-                        <h2 className=" md:text-2xl font-semibold">{description}</h2>
+                        <h2 className=" md:text-2xl font-semibold">{title}</h2>
                         <p className='font-semibold text-sm mt-2 mb-3'><span className='text-gray-400'>Developed by :</span> <span className='text-[#723be7]'>{companyName}</span></p>
                         <hr className='text-gray-300' />
 
@@ -93,10 +117,10 @@ const AppsDetails = () => {
                         <div className='md:text-left text-center'>
                             <button
                                 className='btn bg-[#00d390] text-white'
-                                onClick={() => setInstall(!install), handleAddInstall}  >
+                                onClick={() => { setInstall(true); handleAddInstall() }}  >
                                 {install
-                                    ? `Installed`   
-                                    : `Install Now (${size} MB)` 
+                                    ? `Installed`
+                                    : `Install Now (${size} MB)`
                                 }
                             </button>
                         </div>
@@ -121,8 +145,8 @@ const AppsDetails = () => {
             </div>
             <hr className='my-10 container mx-auto text-gray-300' />
             <div>
-              <h1 className='font-bold'>Description</h1>   
-              {description}               
+                <h1 className='font-bold'>Description</h1>
+                {description}
             </div>
         </div>
 

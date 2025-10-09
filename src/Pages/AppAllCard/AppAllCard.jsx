@@ -2,14 +2,20 @@ import React from 'react';
 import { FiDownload } from "react-icons/fi";
 import { IoMdStar } from "react-icons/io";
 import { Link } from 'react-router';
+import { toast } from 'react-toastify';
 
 const AppAllCard = ({ app }) => {
    
-    const { image, description, ratingAvg, downloads, id } = app
+    const { image,  title, ratingAvg, downloads, id } = app
+    
+
+    const handleAlert = () => {
+        toast('App is added Details page')
+    }
 
     
     return (
-        <Link to={`/appDetails/${id}`} className=''>
+        <Link onClick={handleAlert} to={`/appDetails/${id}`} className=''>
             <div className="card bg-base-100 shadow-sm hover:scale-102 transition ease-in-out">
                 <figure className="px-5 pt-5">
                     <img
@@ -18,7 +24,7 @@ const AppAllCard = ({ app }) => {
                         className="rounded-xl w-68 h-52" />
                 </figure>
                 <div className="card-body items-center text-center">
-                    <h2 className="card-title text-xs">{description}</h2>
+                    <h2 className="card-title text-xs">{title}</h2>
 
                     <div className="flex justify-between w-full items-center mt-1">
                         <div className="flex items-center text-sm text-[#03b47c] bg-gray-300 gap-1 px-3 rounded-xl"><FiDownload /> {downloads}M</div>
@@ -26,6 +32,7 @@ const AppAllCard = ({ app }) => {
                     </div>
                 </div>
             </div>
+            
         </Link>
     );
 };

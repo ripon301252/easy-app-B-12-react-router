@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FiDownload } from "react-icons/fi";
 import { IoMdStar } from "react-icons/io";
+import { toast } from 'react-toastify';
 
 
 const Installation = () => {
+
+    const [sortOrder, setSortOrder] = useState('none')
 
     const [install, setInstall] = useState([])
 
@@ -12,19 +15,56 @@ const Installation = () => {
         if (savedInstall) setInstall(savedInstall)
     }, [])
 
-    return (
-        <div>
-            this is installation
-            <div>
-                {install.map(a => <div key={a.id} className='flex md:flex-row flex-col justify-between items-center bg-white border-1 border-gray-300 rounded-lg md:mx-10 py-1 md:px-2 mt-3'>
 
-                    <div className='flex md:flex-row flex-col items-center md:gap-10 gap-3'>
+    // Sort
+     const sortedItem = (() => {
+        if (sortOrder === 'size-asc') {
+            return [...install].sort((a, b) => a.size - b.size)
+        }
+        else if (sortOrder === 'size-dsc') {
+            return [...install].sort((a, b) => b.size - a.size)
+        }
+        else {
+            return install
+        }
+    })()
+
+
+    // remove ui & local
+    const handleRemove = (id) => {
+        const existingInstall = JSON.parse(localStorage.getItem('installation'))
+        let updatedInstall = existingInstall.filter(a => a.id !== id)
+        setInstall(updatedInstall)
+
+        localStorage.setItem('installation', JSON.stringify(updatedInstall))
+
+        toast("App uninstalled successfully");
+    }
+
+
+
+    return (
+        <div className='md:mx-10 '>
+            <h1 className='text-center md:text-4xl text-2xl font-semibold md:pt-10 pt-5'>Your Installed Apps</h1>
+            <p className='text-center text-sm text-gray-400 my-5 mx-2'>Explore All Trending Apps on the Market developed by us</p>
+            <div className='flex justify-between items-center md:mx-0 mx-2'>
+                <h2 className='text-xl font-bold'>{sortedItem .length} Apps Found</h2>
+                <select value={sortOrder} onChange={e => setSortOrder(e.target.value)} className='btn select w-32'>
+                    <option value={"none"}>Sort By Size</option>
+                    <option value={'size-asc'}>Low-&gt;High</option>
+                    <option value={'size-dsc'}>High-&gt;Low</option>
+                </select>
+            </div>
+            <div>
+                {/*install*/ sortedItem.map(a => <div key={a.id} className='flex md:flex-row flex-col justify-between items-center bg-white border-1 border-gray-300 rounded-lg md:py-1 py-5 md:px-2 mt-3'>
+
+                    <div className='flex md:flex-row flex-col items-center md:gap-10  gap-3'>
                         <div>
                             <img src={a.image} alt={a.image} className='md:w-20 md:h-16 rounded-md' />
                         </div>
                         <div>
-                            <p className='text-gray-400 md:text-left text-center'>{a.description}</p>
-                            <div className="flex w-full items-center md:text-left text-center md:gap-10 gap-6 mt-3 mb-3">
+                            <p className='text-gray-400 md:text-left text-center'>{a.title}</p>
+                            <div className="flex w-full md:justify-start justify-center items-center md:text-left md:gap-10 gap-6 mt-3 mb-3">
                                 <div className=" flex items-center text-sm gap-1 text-[#03b47c]">
                                     <p><FiDownload /></p>
                                     <p>{a.downloads}M</p>
@@ -40,7 +80,7 @@ const Installation = () => {
                         </div>
                     </div>
 
-                    <button className='btn bg-[#00d390] text-white'>Uninstall</button>
+                    <button onClick={() => handleRemove(a.id)} className='btn bg-[#00d390] text-white'>Uninstall</button>
                 </div>)
 
                 }
