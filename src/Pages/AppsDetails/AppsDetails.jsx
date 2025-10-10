@@ -26,6 +26,16 @@ const AppsDetails = () => {
         }
     }, [id]);
 
+    // loading
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-[80vh]">
+                <span className="loading loading-bars loading-xl"></span>
+            </div>
+        );
+    }
+
+
     // Error
     if (error) {
         return (
@@ -83,14 +93,6 @@ const AppsDetails = () => {
         );
     }
 
-    // loading
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-[80vh]">
-                <span className="loading loading-bars loading-xl"></span>
-            </div>
-        );
-    }
 
     // generate chart data
     const sortedRatings = ratings
