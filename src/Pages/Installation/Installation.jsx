@@ -27,6 +27,15 @@ const Installation = () => {
         return () => clearTimeout(timer);
     }, []);
 
+    // loading
+    if (loading || loadingDelay) {
+        return (
+            <div className="flex justify-center items-center h-[80vh]">
+                <span className="loading loading-bars loading-xl"></span>
+            </div>
+        );
+    }
+
     // Error
     if (error) {
         return (
@@ -67,14 +76,7 @@ const Installation = () => {
         );
     }
 
-    // loading
-    if (loading || loadingDelay) {
-        return (
-            <div className="flex justify-center items-center h-[80vh]">
-                <span className="loading loading-bars loading-xl"></span>
-            </div>
-        );
-    }
+    
 
     return (
         <div className='md:mx-10 '>

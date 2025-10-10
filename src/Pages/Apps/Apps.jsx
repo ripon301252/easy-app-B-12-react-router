@@ -31,6 +31,16 @@ const Apps = () => {
         return () => clearTimeout(timer);
     }, [term])
 
+      const isLoading = loading || loadingDelay
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-[80vh]">
+                <span className="loading loading-bars loading-xl"></span>
+            </div>
+        );
+    }
+
     // Error
     if (error) {
         return (
@@ -42,15 +52,7 @@ const Apps = () => {
         );
     }
 
-    const isLoading = loading || loadingDelay
-
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-[80vh]">
-                <span className="loading loading-bars loading-xl"></span>
-            </div>
-        );
-    }
+  
 
     return (
         <div className='bg-base-200'>

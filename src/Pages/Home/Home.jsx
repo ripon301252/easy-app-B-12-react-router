@@ -17,6 +17,15 @@ const Home = () => {
         return () => clearTimeout(timer);
     }, []);
 
+     // loading
+    if (loading || loadingDelay) {
+        return (
+            <div className="flex justify-center items-center h-[80vh]">
+                <span className="loading loading-bars loading-xl"></span>
+            </div>
+        );
+    }
+
     // Error
     if (error) {
         return (
@@ -24,15 +33,6 @@ const Home = () => {
                 <h1 className="text-3xl font-bold mb-3">Something went wrong!</h1>
                 <p className="text-gray-500 mb-5">{error.message || 'Failed to fetch app data.'}</p>
                 <a href="/apps" className="btn btn-primary">Back to Apps</a>
-            </div>
-        );
-    }
-
-    // loading
-    if (loading || loadingDelay) {
-        return (
-            <div className="flex justify-center items-center h-[80vh]">
-                <span className="loading loading-bars loading-xl"></span>
             </div>
         );
     }
